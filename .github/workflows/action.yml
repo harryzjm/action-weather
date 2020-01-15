@@ -1,0 +1,26 @@
+name: 'Actions Weather'
+
+on:
+  push:
+  schedule:
+    - cron: '0 21 * * *'
+
+jobs:
+  bot:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Checkout codes'
+        uses: actions/checkout@v2
+      - name: 'Get Weather'
+        id: weather
+        run: bash ./weather.sh
+        env:
+          CITY: ${{ secrets.CITY }}
+      - name: 'Send ding'
+        uses: harryzjm/action-dingTalk@master
+        with:
+          access_token: ${{ secrets.ACCESS_TOKEN }}
+          title: ${{ steps.weather.outputs.res }}
+          content: |
+            ## ${{ steps.weather.outputs.res }}
+            ##### Date: ${{ steps.weather.outputs.date }}

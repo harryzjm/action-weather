@@ -1,0 +1,10 @@
+#!/bin/sh
+
+CITY=$CITY
+LANGUAGE="zh-CN"
+UNIT=m
+UA="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.88 Safari/537.36"
+
+RES=`curl -H "Accept-Language: $LANGUAGE" -H "User-Agent: $UA" wttr.in/$CITY?format=4\&$UNIT`
+echo "::set-output name=res::$RES"
+echo "::set-output name=date::$(TZ=':Asia/Shanghai' date '+%Y-%m-%d %T')"
